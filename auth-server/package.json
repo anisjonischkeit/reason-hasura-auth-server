@@ -1,0 +1,53 @@
+{
+  "name": "auth-server",
+  "version": "0.1.0",
+  "description": "An authentication server for Hasura written in ReasonML",
+  "license": "MIT",
+  "esy": {
+    "build": "refmterr dune build -p #{self.name}",
+    "NOTE": "Optional release Section. Customizes result of `esy release`",
+    "release": {
+      "bin": [
+        "Main"
+      ]
+    },
+    "exportedEnv": {
+      "HASURA_GRAPHQL_JWT_SECRET": {
+        "val": "3bd561c37d214b4496d09049fadc542c",
+        "scope": "global"
+      },
+      "HASURA_GRAPHQL_URL": {
+        "val": "http://localhost:8080/v1alpha1/graphql",
+        "scope": "global"
+      }
+    }
+  },
+  "scripts": {
+    "start": "esy x Main",
+    "doc": "esy dune build @doc"
+  },
+  "dependencies": {
+    "@esy-ocaml/reason": ">= 3.4.0 < 3.5.0",
+    "@opam/base64": "3.2.0",
+    "@opam/cohttp-lwt-unix": "2.0.0",
+    "@opam/cryptokit": "1.13",
+    "@opam/dune": "*",
+    "@opam/graphql-cohttp": "0.12.1",
+    "@opam/graphql-lwt": "0.9.0",
+    "@opam/nocrypto": "0.5.4-1",
+    "@opam/opium": "0.17.1",
+    "@opam/safepass": "3.0",
+    "@opam/uuidm": "0.9.7",
+    "@reason-native/console": "*",
+    "@reason-native/pastel": "*",
+    "@reason-native/rely": "*",
+    "graphql_ppx": "sgrove/graphql_ppx#4518ba5bf02cd3db1012af2fa2c10a3081307d87",
+    "ocaml": "~4.6.0",
+    "refmterr": "*"
+  },
+  "devDependencies": {
+    "@opam/merlin": "*",
+    "ocaml": "~4.6.0",
+    "@opam/odoc": "*"
+  }
+}
