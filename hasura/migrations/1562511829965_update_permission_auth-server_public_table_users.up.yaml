@@ -1,0 +1,14 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - email
+      - id
+      - password_hash
+      filter: {}
+      limit: null
+    role: auth-server
+    table:
+      name: users
+      schema: public
+  type: create_select_permission

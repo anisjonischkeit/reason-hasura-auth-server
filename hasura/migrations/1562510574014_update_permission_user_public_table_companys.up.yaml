@@ -1,0 +1,14 @@
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - description
+      - id
+      - name
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: companys
+      schema: public
+  type: create_select_permission

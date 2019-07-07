@@ -1,0 +1,24 @@
+- args:
+    role: user
+    table:
+      name: users
+      schema: public
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - company_id
+      - email
+      - first_name
+      - id
+      - last_name
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      limit: 0
+    role: user
+    table:
+      name: users
+      schema: public
+  type: create_select_permission

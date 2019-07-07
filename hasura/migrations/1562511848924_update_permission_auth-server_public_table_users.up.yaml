@@ -1,0 +1,21 @@
+- args:
+    role: auth-server
+    table:
+      name: users
+      schema: public
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - email
+      - first_name
+      - id
+      - last_name
+      - password_hash
+      filter: {}
+    role: auth-server
+    table:
+      name: users
+      schema: public
+  type: create_select_permission
