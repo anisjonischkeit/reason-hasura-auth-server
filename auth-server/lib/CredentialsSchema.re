@@ -4,6 +4,7 @@ let key = Sys.getenv("HASURA_GRAPHQL_JWT_SECRET");
 
 type jwtData = {
   userId: string,
+  iat: int,
   exp: int,
 };
 
@@ -17,15 +18,12 @@ let makePayload = (~jwtData) =>
         ],
         "x-hasura-user-id": "%s"
       },
-      "iss": "https://hasuraauth0demo.auth0.com/",
-      "sub": "google-oauth2|107653521350844232123",
-      "aud": "k3WmaWwAh7Xlzqr6Ly_WePvKZtL0bnrF",
-      "iat": 1555432912,
+      "iss": "auth-server",
+      "iat": %i,
       "exp": %i,
-      "at_hash": "5RE4vPNxlxBk8WFZj5WksA",
-      "nonce": "52RTMYJzgFXYmCKvxK-kRVKc5yMZyTXC"
     }|},
     jwtData.userId,
+    jwtData.iat,
     jwtData.exp,
   );
 

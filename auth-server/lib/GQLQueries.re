@@ -6,6 +6,28 @@ let (>>=) = Lwt.(>>=);
 let (>|=) = Lwt.(>|=);
 
 let hasuraGraphQLUrl = Sys.getenv("HASURA_GRAPHQL_URL");
+let aYearInSeconds = 365 * 24 * 60 * 60;
+let key = Sys.getenv("HASURA_GRAPHQL_JWT_SECRET");
+
+let payload = {
+  let currentTime = Unix.time() |> int_of_float;
+
+  Printf.sprintf(
+    {|{
+      "https://hasura.io/jwt/claims": {
+        "x-hasura-default-role": "auth-server",
+        "x-hasura-allowed-roles": [
+          "auth-server"
+        ]
+      },
+      "iss": "auth-server",
+      "iat": %i,
+      "exp": %i
+    }|},
+    currentTime,
+    currentTime + aYearInSeconds,
+  );
+};
 
 let sendQuery = q => {
   let queryBody =
@@ -18,11 +40,7 @@ let sendQuery = q => {
          Cohttp.Header.(
            init()
            |> add(_, "content-type", "application/json")
-           |> add(
-                _,
-                "Authorization",
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6ImF1dGgtc2VydmVyIiwieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJhdXRoLXNlcnZlciJdfSwiaXNzIjoiaHR0cHM6Ly9oYXN1cmFhdXRoMGRlbW8uYXV0aDAuY29tLyIsInN1YiI6Imdvb2dsZS1vYXV0aDJ8MTA3NjUzNTIxMzUwODQ0MjMyMTIzIiwiYXVkIjoiazNXbWFXd0FoN1hsenFyNkx5X1dlUHZLWnRMMGJuckYiLCJpYXQiOjE1NTU0MzI5MTIsImV4cCI6MjA1NjQ2ODkxMiwiYXRfaGFzaCI6IjVSRTR2UE54bHhCazhXRlpqNVdrc0EiLCJub25jZSI6IjUyUlRNWUp6Z0ZYWW1DS3Z4Sy1rUlZLYzV5TVp5VFhDIn0.ce5BpBqXFHcjlc8_9LNvfY1OTkQkirRnz2i5Rkm2nx0",
-              )
+           |> add(_, "Authorization", "Bearer " ++ JWT.encode(key, payload))
          ),
      )
   >>= (
