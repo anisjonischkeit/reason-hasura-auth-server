@@ -1,6 +1,6 @@
 # Reason Native Hasura Authentication Server
 
-This is a sample that shows how a simple Reason Native authentication server for Hasura could look.
+This is a sample that shows how a simple Reason Native authentication server for Hasura could look. Code can be found in `auth-server/lib`
 
 ## Running the server
 
